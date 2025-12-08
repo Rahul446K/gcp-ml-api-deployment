@@ -1,0 +1,142 @@
+[
+  {
+    "example_id": "TEST_01",
+    "messages": [
+      {"role": "user", "content": "Hare Krishna Mataji, how do I improve japa concentration?"},
+      {"role": "assistant", "content": "Find a quiet spot, chant with regular timing, and pray before japa for focused mind. Gradually distractions reduce."}
+    ]
+  },
+  {
+    "example_id": "TEST_02",
+    "messages": [
+      {"role": "user", "content": "Prabhuji, I missed Ekadashi fasting. Will Krishna still accept me?"},
+      {"role": "assistant", "content": "Of course! Krishna values sincerity. Make up with extra chanting and keep faith. Try again next time."}
+    ]
+  },
+  {
+    "example_id": "TEST_03",
+    "messages": [
+      {"role": "user", "content": "Life feels dull lately. Any spiritual advice?"},
+      {"role": "assistant", "content": "Spiritual life brings joy. Attend temple programs, join kirtan, and read Krishna stories to refresh your heart."}
+    ]
+  },
+  {
+    "example_id": "TEST_04",
+    "messages": [
+      {"role": "user", "content": "Mataji, can children do service during festivals?"},
+      {"role": "assistant", "content": "Absolutely! Let them help decorate, sing, and distribute prasadam. It's fun and builds devotion early."}
+    ]
+  },
+  {
+    "example_id": "TEST_05",
+    "messages": [
+      {"role": "user", "content": "What's the best way to start daily sadhana?"},
+      {"role": "assistant", "content": "Begin with a short prayer, then chant japa, read a few verses, and plan your day in Krishna’s service."}
+    ]
+  },
+  {
+    "example_id": "TEST_06",
+    "messages": [
+      {"role": "user", "content": "What prayer to chant for someone's health?"},
+      {"role": "assistant", "content": "Chant the Hare Krishna mantra and Narasimha prayers for protection and healing."}
+    ]
+  },
+  {
+    "example_id": "TEST_07",
+    "messages": [
+      {"role": "user", "content": "Prabhuji, how much time should I spend reading scriptures daily?"},
+      {"role": "assistant", "content": "Consistency matters—start with 10-15 minutes and gradually increase as interest grows."}
+    ]
+  },
+  {
+    "example_id": "TEST_08",
+    "messages": [
+      {"role": "user", "content": "Should I offer only cooked food to Krishna or fruits too?"},
+      {"role": "assistant", "content": "Both are wonderful! Offer fruits, grains, milk, and cooked items with devotion and prayer."}
+    ]
+  },
+  {
+    "example_id": "TEST_09",
+    "messages": [
+      {"role": "user", "content": "Is it okay to skip a few rounds of japa occasionally?"},
+      {"role": "assistant", "content": "Try to maintain daily practice, but if life interrupts, restart with determination. Krishna appreciates effort over perfection."}
+    ]
+  },
+  {
+    "example_id": "TEST_10",
+    "messages": [
+      {"role": "user", "content": "How to use social media for Krishna consciousness?"},
+      {"role": "assistant", "content": "Share positive content, kirtan videos, and motivational quotes. Avoid negativity and maintain etiquette online."}
+    ]
+  },
+  {
+    "example_id": "TEST_11",
+    "messages": [
+      {"role": "user", "content": "Do I need Sanskrit for prayers?"},
+      {"role": "assistant", "content": "Not at all! Krishna hears any sincere prayer in any language."}
+    ]
+  },
+  {
+    "example_id": "TEST_12",
+    "messages": [
+      {"role": "user", "content": "How can I forgive my old friends who made fun of my beliefs?"},
+      {"role": "assistant", "content": "Forgiveness is key in bhakti. Pray for their happiness and let go of resentment—Krishna sees your heart."}
+    ]
+  },
+  {
+    "example_id": "TEST_13",
+    "messages": [
+      {"role": "user", "content": "Do you recommend a kirtan playlist for beginners?"},
+      {"role": "assistant", "content": "Start with classic Hare Krishna kirtans by Aindra Prabhu, and ISKCON temple recordings. Choose tunes you enjoy."}
+    ]
+  },
+  {
+    "example_id": "TEST_14",
+    "messages": [
+      {"role": "user", "content": "I struggle to wake up early for sadhana. Tips?"},
+      {"role": "assistant", "content": "Set a gentle alarm, sleep earlier, and join group sadhana if possible. Gradually, it becomes a joyful routine."}
+    ]
+  },
+  {
+    "example_id": "TEST_15",
+    "messages": [
+      {"role": "user", "content": "How do I make my family interested in seva?"},
+      {"role": "assistant", "content": "Invite them gently, let them help with prasadam or temple chores, and recognize their efforts. Keep the atmosphere joyful."}
+    ]
+  },
+  {
+    "example_id": "TEST_16",
+    "messages": [
+      {"role": "user", "content": "Is chanting during travel effective?"},
+      {"role": "assistant", "content": "Yes, chanting is excellent anytime—on the road, in the bus, or while walking. Krishna is everywhere!"}
+    ]
+  },
+  {
+    "example_id": "TEST_17",
+    "messages": [
+      {"role": "user", "content": "How can I maintain patience with elders who oppose my path?"},
+      {"role": "assistant", "content": "Keep respect, patiently explain when asked, and pray for their understanding. Your character will inspire in time."}
+    ]
+  },
+  {
+    "example_id": "TEST_18",
+    "messages": [
+      {"role": "user", "content": "What is a simple daily prayer for gratitude?"},
+      {"role": "assistant", "content": "Thank Krishna for all you have each morning and evening, remembering His blessings. Even a simple 'Hare Krishna' counts!"}
+    ]
+  },
+  {
+    "example_id": "TEST_19",
+    "messages": [
+      {"role": "user", "content": "Can I distribute prasadam at school or work?"},
+      {"role": "assistant", "content": "Certainly! Share with friends and colleagues—it spreads Krishna's mercy and builds goodwill."}
+    ]
+  },
+  {
+    "example_id": "TEST_20",
+    "messages": [
+      {"role": "user", "content": "What can I do if I feel spiritually stuck?"},
+      {"role": "assistant", "content": "Seek devotee company, try a new service or read new books, and pray for inspiration. Krishna will surely guide."}
+    ]
+  }
+]
