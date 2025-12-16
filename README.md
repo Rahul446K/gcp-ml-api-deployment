@@ -1,7 +1,6 @@
 # gcp-ml-api-deployment
 Deployment project of fine-tune a 7B parameter LLM AI model, exposed as a production-ready API endpoint on GCP using Docker and FastAPI.
 
-
 # GCP ML API Deployment – Falcon-7B LoRA Adapter  
 Deploying a fine-tuned 7B LLM as a production-ready REST API using Google Cloud, Docker, and FastAPI.
 
@@ -56,8 +55,6 @@ Client → FastAPI → Docker Container → Falcon-7B Model + LoRA → CPU Infer
 4. Exported `lora-devotee/` directory  
 5. Added LoRA weights to Docker image for deployment  
 
-Kaggle was chosen because GCP VM did not provide GPU resources.
-
 ---
 
 # ☁️ GCP Deployment
@@ -68,28 +65,6 @@ Kaggle was chosen because GCP VM did not provide GPU resources.
 - Port Exposed: **8000**  
 - Authentication: SSH keys  
 - Firewall: Custom ingress rule allowing TCP:8000  
-
----
-
-# 🐳 Docker Deployment Instructions
-
-```bash
-docker build -t devotee-api .
-docker run -d --name ai_chat_service -p 8000:8000 devotee-api
-```
-
-Check logs:
-
-```bash
-docker logs -f ai_chat_service
-```
-
-Stop/start service:
-
-```bash
-docker stop ai_chat_service
-docker start ai_chat_service
-```
 
 ---
 
@@ -119,9 +94,33 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 
 ---
 
-# 🔧 Environment Variables (Recommended)
+# 🐳 Setup & Installation (Using Docker)
 
-Create `.env` file:
+### 1. Build the Docker Image
+```bash
+docker build -t devotee-api .
+```
+
+### 2. Run the API Container
+```bash
+docker run -d --name ai_chat_service -p 8000:8000 devotee-api
+```
+
+### 3. Verify the Deployment
+```bash
+curl http://34.60.125.198:8000/
+```
+
+### 4. Test Chat Endpoint
+```bash
+curl -X POST "http://34.60.125.198:8000/chat"      -H "Content-Type: application/json"      -d '{"prompt":"Hare Krishna, please guide me."}'
+```
+
+---
+
+# 🔧 Environment Variables
+
+Create `.env`:
 
 ```
 HOST=0.0.0.0
@@ -132,12 +131,6 @@ DEVICE=cpu
 MAX_TOKENS=120
 TEMPERATURE=0.7
 TOP_P=0.9
-```
-
-Add `.env` to `.gitignore`:
-
-```
-.env
 ```
 
 ---
@@ -153,7 +146,6 @@ http://34.60.125.198:8000
 # 🔌 API Endpoints
 
 ## 1️⃣ Health Check – GET `/`
-
 ```
 http://34.60.125.198:8000/
 ```
@@ -166,7 +158,6 @@ Response:
 ---
 
 ## 2️⃣ Chat Inference – POST `/chat`
-
 ```
 http://34.60.125.198:8000/chat
 ```
@@ -176,17 +167,11 @@ Request:
 {"prompt": "Hare Krishna, please guide me."}
 ```
 
-Response:
-```json
-{"response": "Model generated text..."}
-```
-
 ⚠️ Response time on CPU: **1–3 minutes**
 
 ---
 
-## 3️⃣ API Documentation – `/docs`
-
+## 3️⃣ Swagger API Documentation – `/docs`
 ```
 http://34.60.125.198:8000/docs
 ```
@@ -201,7 +186,7 @@ http://34.60.125.198:8000/docs
 | Git auth failed | Password login deprecated | Use SSH key or PAT |
 | Port unreachable | Firewall closed | Allow TCP:8000 |
 | Docker build slow | Large model files | Expected (10–20 mins) |
-| `/chat` not working in browser | Only accepts POST | Use curl/Postman |
+| `/chat` not working in browser | Only accepts POST | Use curl or Postman |
 
 ---
 
@@ -216,8 +201,7 @@ http://34.60.125.198:8000/docs
 ---
 
 # 📄 License  
-MIT License
-
+MIT License  
 ---
 
 # ✨ Author  
