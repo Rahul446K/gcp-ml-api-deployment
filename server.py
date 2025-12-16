@@ -1,74 +1,104 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
 import torch
 import os
 
-# ---------- FastAPI setup ----------
+# --- Configuration Constants ---
+BASE_MODEL_NAME = "gpt2"
+# Set device explicitly to 'cpu' for now, matching your VM setup
+DEVICE = "cpu" 
+LORA_DIR = "./lora-devotee"
+
+# -------------------------
+# App Setup
+# -------------------------
 app = FastAPI(title="Devotee Chat API")
 
-# ---------- Request body schema ----------
-class ChatRequest(BaseModel):
-    prompt: str
-
-# ---------- Load base model + LoRA on startup ----------
-BASE_MODEL_NAME = "tiiuae/falcon-7b-instruct"
-LORA_DIR = "./lora-devotee"  # path inside the Docker image
-
+# -------------------------
+# Load tokenizer & base model (once on startup)
+# -------------------------
 print("Loading tokenizer...")
-tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL_NAME)
+# Gemma requires trust_remote_code=True
+tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL_NAME, trust_remote_code=True)
 if tokenizer.pad_token is None:
     tokenizer.pad_token = tokenizer.eos_token
 
-print("Loading base model (this can take a while)...")
+print(f"Loading base model: {BASE_MODEL_NAME} (this may take time)...")
 
-base_model = AutoModelForCausalLM.from_pretrained(
+# Use float32 for CPU compatibility, set device_map=None
+model = AutoModelForCausalLM.from_pretrained(
     BASE_MODEL_NAME,
-    torch_dtype=torch.float32,   # Optimized for CPU performance/compatibility
-    device_map=None              # Set to None to avoid 'meta' device error
+    torch_dtype=torch.float32, 
+    device_map=None,
+    trust_remote_code=True
 )
-base_model = base_model.to('cpu') # Explicitly move the entire model to CPU
 
-print("Attaching LoRA adapter...")
-model = PeftModel.from_pretrained(
-    base_model,
-    LORA_DIR,
-    device_map=None
-)
-model = model.to('cpu') # Ensure the final model is on CPU
+# Explicitly move model to CPU after loading
+model.to(DEVICE)
+model.eval() # Set model to evaluation mode
 
-model.config.pad_token_id = tokenizer.pad_token_id
+print(f"Model loaded successfully on {DEVICE}")
 
-device = next(model.parameters()).device
-print("Model is on device:", device) # This should print 'cpu'
 
-# ---------- Simple health endpoint ----------
+# -------------------------
+# Request schema
+# -------------------------
+class ChatRequest(BaseModel):
+    prompt: str
+    max_new_tokens: int = 200
+    temperature: float = 0.7
+
+# -------------------------
+# Health endpoint
+# -------------------------
 @app.get("/")
-def home():
+def health():
     return {"message": "Devotee Chat API running!"}
 
-# ---------- Chat endpoint ----------
+# -------------------------
+# Chat endpoint
+# -------------------------
 @app.post("/chat")
 def chat(req: ChatRequest):
-    user_prompt = req.prompt
-
-    # Format similar to training style
-    full_prompt = f"User: {user_prompt}\nAssistant:"
-
-    inputs = tokenizer(full_prompt, return_tensors="pt").to(device)
+    prompt = req.prompt.strip()
+    inputs = tokenizer(prompt, return_tensors="pt").to(DEVICE)
 
     with torch.no_grad():
         outputs = model.generate(
             **inputs,
-            max_new_tokens=120,
-            temperature=0.7,
-            top_p=0.9,
-            do_sample=True,
-            pad_token_id=tokenizer.pad_token_id,
+            max_new_tokens=req.max_new_tokens,
+            temperature=req.temperature,
+            do_sample=True
         )
-    
-    # --- FIX: Decode the first (and only) sequence in the batch ---
-    text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    # -------------------------------------------------------------
-    return {"response": text}
+
+    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return {"response": response}
+
+# -------------------------
+# Load adapter endpoint (from the challenge requirements)
+# -------------------------
+@app.post("/load_adapter")
+def load_adapter(adapter_path: str = Body(..., embed=True)):
+    global model
+
+    try:
+        print(f"Loading adapter from: {adapter_path}")
+        # Note: This assumes LORA_DIR contains your specific trained adapters
+        model = PeftModel.from_pretrained(model, LORA_DIR) 
+        model.to(DEVICE)
+        model.eval()
+
+        return {
+            "status": "ok",
+            "message": f"Adapter loaded from {LORA_DIR}"
+        }
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e)
+        }
+
+
